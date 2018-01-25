@@ -19,7 +19,6 @@ services:
       - TARGET=bootnode
     networks:
       ethnet:
-        ipv4_address: 13.3.7.2
     ports:
       - "30301:30301"
     volumes:
@@ -34,7 +33,6 @@ services:
       - ${ETHEREAL_HOME:-../../}:/opt/genesis
     networks:
       ethnet:
-        ipv4_address: 13.3.7.3
     ports:
       - "8545:8545"
       - "30303:30303"
@@ -44,7 +42,7 @@ services:
       - TARGET=fullnode
       - GENESIS_FILE=genesis.json
       - NODE_NAME=node-1
-      - BOOTNODE_ADDRESS=13.3.7.2
+      - BOOTNODE_ADDRESS=bootnode
       - BOOTNODE_UDP_PORT=30301
   node-2:
     image: chaingang/ethereal:${ETHEREAL_TAG:-latest}
@@ -56,7 +54,6 @@ services:
       - ${ETHEREAL_HOME:-../../}:/opt/genesis
     networks:
       ethnet:
-        ipv4_address: 13.3.7.4
     ports:
       - "8645:8545"
       - "31303:30303"
@@ -66,7 +63,7 @@ services:
       - TARGET=fullnode
       - GENESIS_FILE=genesis.json
       - NODE_NAME=node-2
-      - BOOTNODE_ADDRESS=13.3.7.2
+      - BOOTNODE_ADDRESS=bootnode
       - BOOTNODE_UDP_PORT=30301
   test:
     build:
@@ -86,9 +83,5 @@ services:
 networks:
   ethnet:
     driver: bridge
-    ipam:
-      config:
-        - subnet: 13.3.7.0/16
-          gateway: 13.3.7.1
 volumes:
   shared:
